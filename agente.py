@@ -18,32 +18,29 @@ def analizar():
             deuda = i.get('debtToEquity', 0) / 100
             sector = i.get('sector', 'Otros')
             
-            # Valor Intrínseco y Descuento
             vi = eps * (8.5 + 2 * 7.5)
             desc = (1 - (px / vi)) * 100
 
             if deuda < 1.5 and desc > 20:
-                # Datos Históricos
                 hist = s.history(period="max")
                 ath = hist['High'].max()
                 f_ath = hist['High'].idxmax()
                 caida_ath = ((ath - px) / ath) * 100
                 
-                # Tiempo infravalorada (Estimado 1 año atrás)
+                # Cálculo de tiempo en oferta (1 año atrás)
                 h_year = s.history(period="1y")
-                # Filtramos días donde el precio estuvo bajo el 80% del valor intrínseco
                 dias_infra = len(h_year[h_year['Close'] < (vi * 0.8)])
 
                 tag = "🚨 *GANGA (>30%)*" if desc > 30 else "👀 *VIGILANCIA*"
                 color = "🟢" if desc > 30 else "🟡"
                 
-                info = (f"{color} **{t}** ({sector})\n"
+                info = (f"{color} **{t}** | {sector}\n"
                         f"{tag}\n"
-                        f"🔹 Desc: {desc:.1f}% | Px: ${px}\n"
+                        f"🔹 Desc: {desc:.1f}% | Precio: ${px}\n"
                         f"📉 Vs Máximo: -{caida_ath:.1f}% ({f_ath.strftime('%m/%Y')})\n"
                         f"⏳ Tiempo en oferta: ~{dias_infra} días\n"
                         f"───────────────────")
-                hallos.append(info)
+                hallazgos.append(info)
         except: continue
 
     if hallazgos:
