@@ -9,6 +9,7 @@ TICKERS = ["AAPL", "ABT", "ABBV", "ACN", "ADBE", "AMD", "AIG", "ALL", "GOOGL", "
 
 def analizar():
     hallazgos = []
+    print("Iniciando análisis profundo...")
     for t in TICKERS:
         try:
             s = yf.Ticker(t)
@@ -22,31 +23,37 @@ def analizar():
             desc = (1 - (px / vi)) * 100
 
             if deuda < 1.5 and desc > 20:
+                # Datos de Máximos
                 hist = s.history(period="max")
                 ath = hist['High'].max()
-                f_ath = hist['High'].idxmax()
+                f_ath = hist['High'].idxmax().strftime('%m/%Y')
                 caida_ath = ((ath - px) / ath) * 100
                 
-                # Cálculo de tiempo en oferta (1 año atrás)
+                # Tiempo en oferta (último año)
                 h_year = s.history(period="1y")
                 dias_infra = len(h_year[h_year['Close'] < (vi * 0.8)])
 
                 tag = "🚨 *GANGA (>30%)*" if desc > 30 else "👀 *VIGILANCIA*"
                 color = "🟢" if desc > 30 else "🟡"
                 
-                info = (f"{color} **{t}** | {sector}\n"
+                info = (f"{color} **{t}** | Sector: {sector}\n"
                         f"{tag}\n"
-                        f"🔹 Desc: {desc:.1f}% | Precio: ${px}\n"
-                        f"📉 Vs Máximo: -{caida_ath:.1f}% ({f_ath.strftime('%m/%Y')})\n"
+                        f"🔹 Descuento: {desc:.1f}%\n"
+                        f"📉 Vs Máximo: -{caida_ath:.1f}% ({f_ath})\n"
                         f"⏳ Tiempo en oferta: ~{dias_infra} días\n"
                         f"───────────────────")
                 hallazgos.append(info)
-        except: continue
+        except Exception as e:
+            print(f"Error en {t}: {e}")
+            continue
 
     if hallazgos:
-        msg = "📊 **REPORTE ANTIGRAVITY PREMIUM**\n\n" + "\n".join(hallazgos)
+        msg = "💎 **ANTIGRAVITY: OPORTUNIDADES TOP** 💎\n\n" + "\n".join(hallazgos)
         requests.post(f"https://api.telegram.org/bot{TOKEN}/sendMessage", 
                       data={"chat_id": CHAT_ID, "text": msg, "parse_mode": "Markdown"})
+    else:
+        requests.post(f"https://api.telegram.org/bot{TOKEN}/sendMessage", 
+                      data={"chat_id": CHAT_ID, "text": "✅ Análisis completado: No hay nuevas gangas hoy."})
 
 if __name__ == "__main__":
     analizar()
