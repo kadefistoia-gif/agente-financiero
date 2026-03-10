@@ -1,34 +1,83 @@
 <html><head><style>
-        body { background:#0e1117; color:white; font-family:sans-serif; padding:20px; display:flex; flex-wrap:wrap; gap:10px; }
-        .card { border:1px solid #333; padding:15px; border-radius:8px; width:120px; text-align:center; cursor:help; }
-    </style></head><body><div class='card' style='background:#cc0000' title='Precio: $259.88 | VI: $185.65 | ATH hace 97 dias'>
-                <b>AAPL</b><br><small>+40.0%</small>
-            </div><div class='card' style='background:#444' title='Precio: $409.41 | VI: $375.30 | ATH hace 222 dias'>
-                <b>MSFT</b><br><small>+9.1%</small>
-            </div><div class='card' style='background:#444' title='Precio: $306.36 | VI: $254.04 | ATH hace 35 dias'>
-                <b>GOOGL</b><br><small>+20.6%</small>
-            </div><div class='card' style='background:#cc0000' title='Precio: $213.49 | VI: $168.50 | ATH hace 127 dias'>
-                <b>AMZN</b><br><small>+26.7%</small>
-            </div><div class='card' style='background:#800000' title='Precio: $182.65 | VI: $115.15 | ATH hace 132 dias'>
-                <b>NVDA</b><br><small>+58.6%</small>
-            </div><div class='card' style='background:#800000' title='Precio: $398.68 | VI: $25.38 | ATH hace 78 dias'>
-                <b>TSLA</b><br><small>+1470.8%</small>
-            </div><div class='card' style='background:#444' title='Precio: $647.39 | VI: $552.25 | ATH hace 207 dias'>
-                <b>META</b><br><small>+17.2%</small>
-            </div><div class='card' style='background:#800000' title='Precio: $345.75 | VI: $120.32 | ATH hace 90 dias'>
-                <b>AVGO</b><br><small>+187.4%</small>
-            </div><div class='card' style='background:#444' title='Precio: $282.44 | VI: $392.22 | ATH hace 365 dias'>
-                <b>ADBE</b><br><small>-28.0%</small>
-            </div><div class='card' style='background:#800000' title='Precio: $98.32 | VI: $59.45 | ATH hace 253 dias'>
-                <b>NFLX</b><br><small>+65.4%</small>
-            </div><div class='card' style='background:#444' title='Precio: $45.58 | VI: $0.00 | ATH hace 47 dias'>
-                <b>INTC</b><br><small>+0.0%</small>
-            </div><div class='card' style='background:#008000' title='Precio: $46.16 | VI: $127.14 | ATH hace 225 dias'>
-                <b>PYPL</b><br><small>-63.7%</small>
-            </div><div class='card' style='background:#008000' title='Precio: $497.20 | VI: $729.21 | ATH hace 312 dias'>
-                <b>BRK-B</b><br><small>-31.8%</small>
-            </div><div class='card' style='background:#800000' title='Precio: $124.34 | VI: $64.39 | ATH hace 21 dias'>
-                <b>WMT</b><br><small>+93.1%</small>
-            </div><div class='card' style='background:#cc0000' title='Precio: $315.97 | VI: $250.28 | ATH hace 272 dias'>
-                <b>V</b><br><small>+26.2%</small>
+        body { background:#0e1117; color:white; font-family:sans-serif; display:grid; 
+                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap:10px; padding:20px; }
+        .card { border:1px solid #333; padding:15px; border-radius:8px; text-align:center; }
+        .t { font-weight:bold; font-size:1.2em; }
+        .d { font-size:1.1em; margin:5px 0; }
+        .a, .v { font-size:0.75em; opacity:0.7; }
+    </style></head><body><div class='card' style='background:#cc0000'>
+                <div class='t'>AAPL</div>
+                <div class='d'>+40.0%</div>
+                <div class='a'>ATH: $288 (97d)</div>
+                <div class='v'>VI: $186</div>
+            </div><div class='card' style='background:#444'>
+                <div class='t'>MSFT</div>
+                <div class='d'>+9.1%</div>
+                <div class='a'>ATH: $552 (222d)</div>
+                <div class='v'>VI: $375</div>
+            </div><div class='card' style='background:#444'>
+                <div class='t'>GOOGL</div>
+                <div class='d'>+20.6%</div>
+                <div class='a'>ATH: $349 (35d)</div>
+                <div class='v'>VI: $254</div>
+            </div><div class='card' style='background:#cc0000'>
+                <div class='t'>AMZN</div>
+                <div class='d'>+26.7%</div>
+                <div class='a'>ATH: $259 (127d)</div>
+                <div class='v'>VI: $168</div>
+            </div><div class='card' style='background:#cc0000'>
+                <div class='t'>NVDA</div>
+                <div class='d'>+58.6%</div>
+                <div class='a'>ATH: $212 (132d)</div>
+                <div class='v'>VI: $115</div>
+            </div><div class='card' style='background:#cc0000'>
+                <div class='t'>TSLA</div>
+                <div class='d'>+1470.8%</div>
+                <div class='a'>ATH: $499 (78d)</div>
+                <div class='v'>VI: $25</div>
+            </div><div class='card' style='background:#444'>
+                <div class='t'>META</div>
+                <div class='d'>+17.2%</div>
+                <div class='a'>ATH: $795 (207d)</div>
+                <div class='v'>VI: $552</div>
+            </div><div class='card' style='background:#cc0000'>
+                <div class='t'>AVGO</div>
+                <div class='d'>+187.4%</div>
+                <div class='a'>ATH: $414 (90d)</div>
+                <div class='v'>VI: $120</div>
+            </div><div class='card' style='background:#444'>
+                <div class='t'>ADBE</div>
+                <div class='d'>-28.0%</div>
+                <div class='a'>ATH: $445 (365d)</div>
+                <div class='v'>VI: $392</div>
+            </div><div class='card' style='background:#cc0000'>
+                <div class='t'>NFLX</div>
+                <div class='d'>+65.4%</div>
+                <div class='a'>ATH: $134 (253d)</div>
+                <div class='v'>VI: $59</div>
+            </div><div class='card' style='background:#444'>
+                <div class='t'>INTC</div>
+                <div class='d'>+0.0%</div>
+                <div class='a'>ATH: $55 (47d)</div>
+                <div class='v'>VI: $0</div>
+            </div><div class='card' style='background:#008000'>
+                <div class='t'>PYPL</div>
+                <div class='d'>-63.7%</div>
+                <div class='a'>ATH: $79 (225d)</div>
+                <div class='v'>VI: $127</div>
+            </div><div class='card' style='background:#008000'>
+                <div class='t'>BRK-B</div>
+                <div class='d'>-31.8%</div>
+                <div class='a'>ATH: $542 (312d)</div>
+                <div class='v'>VI: $729</div>
+            </div><div class='card' style='background:#cc0000'>
+                <div class='t'>WMT</div>
+                <div class='d'>+93.1%</div>
+                <div class='a'>ATH: $135 (21d)</div>
+                <div class='v'>VI: $64</div>
+            </div><div class='card' style='background:#cc0000'>
+                <div class='t'>V</div>
+                <div class='d'>+26.2%</div>
+                <div class='a'>ATH: $373 (272d)</div>
+                <div class='v'>VI: $250</div>
             </div></body></html>
