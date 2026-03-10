@@ -37,6 +37,6 @@ def generar_radar():
         .card {{ border:1px solid #333; padding:15px; border-radius:8px; width:120px; text-align:center; cursor:help; }}
     </style></head><body>{cards}</body></html>"""
     
-    with open("index.html", "w") as f: f.write(html)
+    with open("radar.html", "w") as f: f.write(html)
 
 if __name__ == "__main__": generar_radar()
