@@ -33,7 +33,6 @@ jobs:
           git add index.html
           git diff --cached --quiet || git commit -m "chore: update heatmap $(date -u '+%Y-%m-%d %H:%M UTC')"
           git push --force origin HEAD:gh-pages
-```
 ---
 **Estructura de carpetas en tu repo:**
 ```
