@@ -1,59 +1,41 @@
 import yfinance as yf
 import requests
-from datetime import datetime
 
 TOKEN = "8551177666:AAG7fn90_yBIlP0awiH1wznklewx5BHwpaU"
 CHAT_ID = "2020923773"
-
-TICKERS = ["AAPL", "ABT", "ABBV", "ACN", "ADBE", "AMD", "AIG", "ALL", "GOOGL", "AMZN", "AXP", "AMGN", "ADI", "BA", "BAC", "BK", "BAX", "BIIB", "BLK", "BMY", "BRK-B", "C", "CAT", "CHTR", "CVX", "CSCO", "CL", "CMCSA", "COF", "COP", "COST", "CVS", "DHR", "DOW", "DUK", "EMR", "EXC", "XOM", "META", "FDX", "GD", "GE", "GILD", "GS", "HAL", "HD", "HON", "HPQ", "IBM", "INTC", "INTU", "ISRG", "JPM", "KDP", "KMB", "KMI", "KO", "LLY", "LMT", "LOW", "MA", "MCD", "MDT", "MET", "MMM", "MO", "MS", "MSFT", "NEE", "NFLX", "NKE", "NVDA", "ORCL", "OXY", "PEP", "PFE", "PG", "PM", "PYPL", "QCOM", "RTX", "SBUX", "SLB", "SO", "SPG", "T", "TGT", "TMO", "TMUS", "TSLA", "TXN", "UNH", "UNP", "UPS", "USB", "V", "VZ", "WFC", "WMT"]
+TICKERS = ["AAPL", "AMZN", "GOOGL", "MSFT", "TSLA", "NVDA", "ADBE", "UPS", "USB", "VZ", "WFC"]
 
 def analizar():
     hallazgos = []
-    print("Iniciando análisis profundo...")
+    html_cards = "" # Para la web
+    
     for t in TICKERS:
         try:
             s = yf.Ticker(t)
             i = s.info
             px = i.get('currentPrice', 1)
             eps = i.get('trailingEps', 0)
-            deuda = i.get('debtToEquity', 0) / 100
-            sector = i.get('sector', 'Otros')
-            
             vi = eps * (8.5 + 2 * 7.5)
             desc = (1 - (px / vi)) * 100
+            
+            # Color para la web: Verde si es ganga, Gris si no
+            color_web = "#2ecc71" if desc > 30 else "#bdc3c7"
+            
+            if desc > 20:
+                hallazgos.append(f"💎 {t}: {desc:.1f}% desc.")
+            
+            # Crear cuadrito para la web
+            html_cards += f'<div style="background:{color_web}; padding:20px; margin:10px; border-radius:10px; display:inline-block; width:150px; text-align:center; font-family:sans-serif;"><b>{t}</b><br>{desc:.1f}%</div>'
+        except: continue
 
-            if deuda < 1.5 and desc > 20:
-                # Datos de Máximos
-                hist = s.history(period="max")
-                ath = hist['High'].max()
-                f_ath = hist['High'].idxmax().strftime('%m/%Y')
-                caida_ath = ((ath - px) / ath) * 100
-                
-                # Tiempo en oferta (último año)
-                h_year = s.history(period="1y")
-                dias_infra = len(h_year[h_year['Close'] < (vi * 0.8)])
+    # 1. Guardar la Web
+    with open("index.html", "w") as f:
+        f.write(f"<html><body style='background:#f0f2f5;'><h1>Mi Radar de Ofertas</h1>{html_cards}</body></html>")
 
-                tag = "🚨 *GANGA (>30%)*" if desc > 30 else "👀 *VIGILANCIA*"
-                color = "🟢" if desc > 30 else "🟡"
-                
-                info = (f"{color} **{t}** | Sector: {sector}\n"
-                        f"{tag}\n"
-                        f"🔹 Descuento: {desc:.1f}%\n"
-                        f"📉 Vs Máximo: -{caida_ath:.1f}% ({f_ath})\n"
-                        f"⏳ Tiempo en oferta: ~{dias_infra} días\n"
-                        f"───────────────────")
-                hallazgos.append(info)
-        except Exception as e:
-            print(f"Error en {t}: {e}")
-            continue
-
+    # 2. Enviar Telegram
     if hallazgos:
-        msg = "💎 **ANTIGRAVITY: OPORTUNIDADES TOP** 💎\n\n" + "\n".join(hallazgos)
-        requests.post(f"https://api.telegram.org/bot{TOKEN}/sendMessage", 
-                      data={"chat_id": CHAT_ID, "text": msg, "parse_mode": "Markdown"})
-    else:
-        requests.post(f"https://api.telegram.org/bot{TOKEN}/sendMessage", 
-                      data={"chat_id": CHAT_ID, "text": "✅ Análisis completado: No hay nuevas gangas hoy."})
+        msg = "📊 **ACTUALIZACIÓN RADAR**\n\n" + "\n".join(hallazgos)
+        requests.post(f"https://api.telegram.org/bot{TOKEN}/sendMessage", data={"chat_id": CHAT_ID, "text": msg, "parse_mode": "Markdown"})
 
 if __name__ == "__main__":
     analizar()
