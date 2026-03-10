@@ -1,95 +1,51 @@
-import yfinance as yf
-import datetime
-import os
-import requests
-import time
-import pandas as pd
-import ssl
+name: S&P 100 Live Radar
 
-# Bypass SSL para evitar errores de conexión en GitHub
-ssl._create_default_https_context = ssl._create_unverified_context
+on:
+  workflow_dispatch: # Para que lo lances tú a mano cuando quieras ver la carga
+  schedule:
+    - cron: "0 16 * * 1-5" # Se corre solo a las 16:00 UTC (Lunes a Viernes)
 
-# ── CONFIG ──────────────────────────────────────────────────────────────────
-def get_sp100_tickers():
-    try:
-        url = "https://en.wikipedia.org/wiki/S%26P_100"
-        df = pd.read_html(url)[2]
-        return [t.replace('.', '-') for t in df['Symbol'].tolist()]
-    except:
-        return ["AAPL", "MSFT", "GOOGL", "AMZN", "NVDA", "TSLA", "META", "BRK-B", "V", "WMT"]
+permissions:
+  contents: write
 
-TICKERS = sorted(get_sp100_tickers())
-GRAHAM_MULTIPLIER = 23.5
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
 
-def fetch_stock_data(ticker):
-    try:
-        stk = yf.Ticker(ticker)
-        i = stk.info
-        px = i.get("currentPrice") or i.get("regularMarketPrice") or 0
-        eps = i.get("trailingEps") or 0
-        vi = eps * GRAHAM_MULTIPLIER if eps > 0 else 0
-        h = stk.history(period="52wk")
-        ath = float(h["High"].max()) if not h.empty else px
-        f_ath = h["High"].idxmax() if not h.empty else datetime.date.today()
-        dias = (datetime.date.today() - (f_ath.date() if hasattr(f_ath, "date") else f_ath)).days
-        pct = ((px / vi) - 1) * 100 if vi > 0 else None
-        return {"t": ticker, "p": px, "vi": vi, "ath": ath, "d": dias, "pct": pct}
-    except:
-        return {"t": ticker, "p": 0, "vi": 0, "ath": 0, "d": 0, "pct": None}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-def get_color(pct):
-    if pct is None: return "#444"
-    if pct <= -30: return "#1a6b2a"
-    if pct >= 50: return "#800000"
-    if pct >= 25: return "#e63946"
-    return "#c8a020" if pct < 0 else "#d47d32"
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
 
-# ── GENERACIÓN ──────────────────────────────────────────────────────────────
-def main():
-    print(f"Escaneando {len(TICKERS)} tickers...")
-    cards_html = ""
-    for t in TICKERS:
-        s = fetch_stock_data(t)
-        color = get_color(s['pct'])
-        label = f"{s['pct']:+.1f}%" if s['pct'] is not None else "N/A"
-        cards_html += f"""
-        <div class="card" style="background:{color};">
-            <div class="t">{s['t']}</div>
-            <div class="p">${s['p']:.2f}</div>
-            <div class="b">{label}</div>
-            <div class="m">ATH: ${s['ath']:.2f} ({s['d']}d)<br>VI: ${s['vi']:.2f}</div>
-        </div>"""
-        time.sleep(0.3)
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install yfinance requests pandas lxml html5lib
 
-    updated = datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M UTC")
-    
-    # HTML COMPLETO Y CERRADO
-    html = f"""<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <style>
-        body {{ background:#0e1117; color:white; font-family:sans-serif; padding:20px; }}
-        .grid {{ display:grid; grid-template-columns:repeat(auto-fill, minmax(150px, 1fr)); gap:10px; }}
-        .card {{ border-radius:10px; padding:15px; transition:0.2s; border:1px solid rgba(255,255,255,0.1); }}
-        .card:hover {{ transform: scale(1.05); filter: brightness(1.2); }}
-        .t {{ font-size:1.3rem; font-weight:bold; }}
-        .p {{ font-size:1.1rem; margin:5px 0; }}
-        .b {{ font-size:0.8rem; background:rgba(0,0,0,0.3); padding:2px 5px; border-radius:5px; display:inline-block; }}
-        .m {{ font-size:0.7rem; margin-top:10px; opacity:0.7; line-height:1.4; }}
-    </style>
-</head>
-<body>
-    <h1 style="text-align:center;">📡 Radar S&P 100</h1>
-    <p style="text-align:center; opacity:0.5;">Actualizado: {updated}</p>
-    <div class="grid">
-        {cards_html}
-    </div>
-</body>
-</html>"""
-    
-    with open("index.html", "w", encoding="utf-8") as f:
-        f.write(html)
-
-if __name__ == "__main__":
-    main()
+      - name: Run 10 Cycles of 10 Stocks
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          # Bucle de 10 veces para completar las 100 empresas
+          for i in {1..10}
+          do
+            echo "Iniciando ciclo $i de 10..."
+            python agente.py
+            
+            # Subir cambios inmediatamente para actualizar la web
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add index.html progreso.json
+            git commit -m "chore: live update batch $i" || echo "No hay cambios"
+            git push --force origin HEAD:main
+            
+            echo "Esperando 30 segundos para el siguiente lote..."
+            sleep 30
+          done
