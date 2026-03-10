@@ -1,41 +1,45 @@
 import yfinance as yf
 import requests
+from datetime import datetime
 
 TOKEN = "8551177666:AAG7fn90_yBIlP0awiH1wznklewx5BHwpaU"
 CHAT_ID = "2020923773"
-TICKERS = ["AAPL", "AMZN", "GOOGL", "MSFT", "TSLA", "NVDA", "ADBE", "UPS", "USB", "VZ", "WFC"]
+# Lista extendida para que el mapa se vea lleno y profesional
+TICKERS = ["AAPL", "MSFT", "GOOGL", "AMZN", "NVDA", "TSLA", "META", "BRK-B", "V", "JNJ", "WMT", "JPM", "PG", "MA", "UNH"]
 
-def analizar():
-    hallazgos = []
-    html_cards = "" # Para la web
-    
+def obtener_datos():
+    datos_finales = []
     for t in TICKERS:
         try:
-            s = yf.Ticker(t)
-            i = s.info
-            px = i.get('currentPrice', 1)
-            eps = i.get('trailingEps', 0)
-            vi = eps * (8.5 + 2 * 7.5)
-            desc = (1 - (px / vi)) * 100
+            stock = yf.Ticker(t)
+            hist = stock.history(period="1y") # Datos de 1 año para máximos y tiempos
+            info = stock.info
             
-            # Color para la web: Verde si es ganga, Gris si no
-            color_web = "#2ecc71" if desc > 30 else "#bdc3c7"
+            px = info.get('currentPrice', 1)
+            eps = info.get('trailingEps', 0)
+            mkt_cap = info.get('marketCap', 1)
             
-            if desc > 20:
-                hallazgos.append(f"💎 {t}: {desc:.1f}% desc.")
+            # Máximo 52 semanas y días desde entonces
+            ath = hist['High'].max()
+            fecha_ath = hist['High'].idxmax()
+            dias_desde_ath = (datetime.now().date() - fecha_ath.date()).days
             
-            # Crear cuadrito para la web
-            html_cards += f'<div style="background:{color_web}; padding:20px; margin:10px; border-radius:10px; display:inline-block; width:150px; text-align:center; font-family:sans-serif;"><b>{t}</b><br>{desc:.1f}%</div>'
+            # Valor Intrínseco (Graham) - Solo si EPS es positivo
+            if eps > 0:
+                vi = eps * (8.5 + 2 * 7.5)
+                diff = ((px / vi) - 1) * 100 # % sobre/bajo valor
+            else:
+                vi, diff = 0, 0 # N/A para empresas en pérdidas
+            
+            datos_finales.append({
+                "ticker": t, "px": px, "vi": vi, "diff": diff,
+                "cap": mkt_cap, "ath": ath, "dias_ath": dias_desde_ath
+            })
         except: continue
+    return datos_finales
 
-    # 1. Guardar la Web
-    with open("index.html", "w") as f:
-        f.write(f"<html><body style='background:#f0f2f5;'><h1>Mi Radar de Ofertas</h1>{html_cards}</body></html>")
-
-    # 2. Enviar Telegram
-    if hallazgos:
-        msg = "📊 **ACTUALIZACIÓN RADAR**\n\n" + "\n".join(hallazgos)
-        requests.post(f"https://api.telegram.org/bot{TOKEN}/sendMessage", data={"chat_id": CHAT_ID, "text": msg, "parse_mode": "Markdown"})
-
+# Aquí es donde el motor guarda la información para el siguiente paso
 if __name__ == "__main__":
-    analizar()
+    resultados = obtener_datos()
+    print(f"Datos procesados de {len(resultados)} empresas.")
+    # El siguiente paso será "dibujar" estos datos en el mapa interactivo.
