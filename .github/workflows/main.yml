@@ -7,14 +7,16 @@ jobs:
   run-bot:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - setup-python:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v4
+        with:
           python-version: '3.9'
       - run: pip install yfinance requests
       - run: python agente.py
-      - run: |
+      - name: Deploy
+        run: |
           git config --global user.name "github-actions"
           git config --global user.email "github-actions@github.com"
           git add index.html
-          git commit -m "Update" || echo "No changes"
+          git commit -m "Update" || exit 0
           git push --force
