@@ -1,48 +1,101 @@
-<!DOCTYPE html><html><head><meta charset="UTF-8"><style>
-body { background:#0e1117; color:#e8eaf0; font-family:sans-serif; padding:2rem; }
-header { text-align:center; margin-bottom:2rem; }
-.legend { display:flex; flex-wrap:wrap; justify-content:center; gap:0.5rem; margin-bottom:2rem; font-size:0.8rem; }
-.legend span { padding:0.3rem 0.6rem; border-radius:10px; font-weight:bold; color:white; }
-.grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(160px, 1fr)); gap:1rem; }
-.card { border-radius:12px; padding:1rem; border:1px solid rgba(255,255,255,0.1); transition:0.2s; min-height:160px; }
-.card:hover { transform:scale(1.05); filter:brightness(1.2); }
-.t { font-size:1.2rem; font-weight:800; }
-.p { font-size:1rem; font-weight:600; margin:4px 0; }
-.b { font-size:0.7rem; background:rgba(0,0,0,0.3); padding:3px; border-radius:4px; font-weight:bold; }
-.m { font-size:0.7rem; margin-top:10px; opacity:0.8; }
-</style></head><body><header><h1>📡 Radar S&P 100</h1><p>Actualizado: 2026-03-10 05:20 UTC</p></header>
-<div class="legend">
-<span style="background:#1a6b2a;">🟢 Ganga ≤-30%</span><span style="background:#e63946;">🔴 Sobreval ≥25%</span><span style="background:#800000;">💀 Burbuja ≥50%</span>
-</div><div class="grid"><div class="card" style="background:#1a6b2a" title="Berkshire Hathaway Inc. New">
-            <div class="t">BRK-B</div><div class="p">$497.20</div>
-            <div class="b">🟢 GANGA -31.8%</div>
-            <div class="m">ATH: <b>$542.07</b><br>312 d tras ATH</div>
-            <div style="font-size:0.7rem">VI: $729.21</div></div><div class="card" style="background:rgb(214,130,50)" title="Microsoft Corporation">
-            <div class="t">MSFT</div><div class="p">$409.41</div>
-            <div class="b">🟡 Prima +9.1%</div>
-            <div class="m">ATH: <b>$552.24</b><br>222 d tras ATH</div>
-            <div style="font-size:0.7rem">VI: $375.30</div></div><div class="card" style="background:rgb(227,104,50)" title="Meta Platforms, Inc.">
-            <div class="t">META</div><div class="p">$647.39</div>
-            <div class="b">🟡 Prima +17.2%</div>
-            <div class="m">ATH: <b>$795.06</b><br>207 d tras ATH</div>
-            <div style="font-size:0.7rem">VI: $552.25</div></div><div class="card" style="background:rgb(232,94,50)" title="Alphabet Inc.">
-            <div class="t">GOOGL</div><div class="p">$306.36</div>
-            <div class="b">🟡 Prima +20.6%</div>
-            <div class="m">ATH: <b>$348.75</b><br>35 d tras ATH</div>
-            <div style="font-size:0.7rem">VI: $254.04</div></div><div class="card" style="background:#e63946" title="Amazon.com, Inc.">
-            <div class="t">AMZN</div><div class="p">$213.49</div>
-            <div class="b">🔴 Sobreval. +26.7%</div>
-            <div class="m">ATH: <b>$258.60</b><br>127 d tras ATH</div>
-            <div style="font-size:0.7rem">VI: $168.50</div></div><div class="card" style="background:#e63946" title="Apple Inc.">
-            <div class="t">AAPL</div><div class="p">$259.88</div>
-            <div class="b">🔴 Sobreval. +40.0%</div>
-            <div class="m">ATH: <b>$288.35</b><br>97 d tras ATH</div>
-            <div style="font-size:0.7rem">VI: $185.65</div></div><div class="card" style="background:#800000" title="NVIDIA Corporation">
-            <div class="t">NVDA</div><div class="p">$182.65</div>
-            <div class="b">💀 BURBUJA +58.6%</div>
-            <div class="m">ATH: <b>$212.18</b><br>132 d tras ATH</div>
-            <div style="font-size:0.7rem">VI: $115.15</div></div><div class="card" style="background:#800000" title="Tesla, Inc.">
-            <div class="t">TSLA</div><div class="p">$398.68</div>
-            <div class="b">💀 BURBUJA +1470.8%</div>
-            <div class="m">ATH: <b>$498.83</b><br>78 d tras ATH</div>
-            <div style="font-size:0.7rem">VI: $25.38</div></div></div></body></html>
+<!DOCTYPE html><html><body style="background:#0e1117; font-family:sans-serif; padding:20px;">
+        <h1 style="color:white; text-align:center;">📡 Radar S&P 100</h1>
+        <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(150px, 1fr)); gap:10px;">
+            
+        <div style="background:#e63946; border-radius:10px; padding:12px; color:white; min-width:140px;">
+            <b style="font-size:1.2rem;">AAPL</b><br>
+            <span style="font-size:1.1rem;">$259.88</span><br>
+            <small style="background:rgba(0,0,0,0.2); padding:2px 5px; border-radius:4px;">+40.0%</small><br>
+            <div style="font-size:0.7rem; margin-top:8px; opacity:0.8;">
+                ATH: $288.35 (97d)<br>VI: $185.65
+            </div>
+        </div>
+        <div style="background:#e63946; border-radius:10px; padding:12px; color:white; min-width:140px;">
+            <b style="font-size:1.2rem;">AMZN</b><br>
+            <span style="font-size:1.1rem;">$213.49</span><br>
+            <small style="background:rgba(0,0,0,0.2); padding:2px 5px; border-radius:4px;">+26.7%</small><br>
+            <div style="font-size:0.7rem; margin-top:8px; opacity:0.8;">
+                ATH: $258.60 (127d)<br>VI: $168.50
+            </div>
+        </div>
+        <div style="background:#1a6b2a; border-radius:10px; padding:12px; color:white; min-width:140px;">
+            <b style="font-size:1.2rem;">BRK-B</b><br>
+            <span style="font-size:1.1rem;">$497.20</span><br>
+            <small style="background:rgba(0,0,0,0.2); padding:2px 5px; border-radius:4px;">-31.8%</small><br>
+            <div style="font-size:0.7rem; margin-top:8px; opacity:0.8;">
+                ATH: $542.07 (312d)<br>VI: $729.21
+            </div>
+        </div>
+        <div style="background:#1a6b2a; border-radius:10px; padding:12px; color:white; min-width:140px;">
+            <b style="font-size:1.2rem;">DIS</b><br>
+            <span style="font-size:1.1rem;">$101.66</span><br>
+            <small style="background:rgba(0,0,0,0.2); padding:2px 5px; border-radius:4px;">-36.3%</small><br>
+            <div style="font-size:0.7rem; margin-top:8px; opacity:0.8;">
+                ATH: $123.85 (253d)<br>VI: $159.56
+            </div>
+        </div>
+        <div style="background:#d47d32; border-radius:10px; padding:12px; color:white; min-width:140px;">
+            <b style="font-size:1.2rem;">GOOGL</b><br>
+            <span style="font-size:1.1rem;">$306.36</span><br>
+            <small style="background:rgba(0,0,0,0.2); padding:2px 5px; border-radius:4px;">+20.6%</small><br>
+            <div style="font-size:0.7rem; margin-top:8px; opacity:0.8;">
+                ATH: $348.75 (35d)<br>VI: $254.04
+            </div>
+        </div>
+        <div style="background:#d47d32; border-radius:10px; padding:12px; color:white; min-width:140px;">
+            <b style="font-size:1.2rem;">META</b><br>
+            <span style="font-size:1.1rem;">$647.39</span><br>
+            <small style="background:rgba(0,0,0,0.2); padding:2px 5px; border-radius:4px;">+17.2%</small><br>
+            <div style="font-size:0.7rem; margin-top:8px; opacity:0.8;">
+                ATH: $795.06 (207d)<br>VI: $552.25
+            </div>
+        </div>
+        <div style="background:#d47d32; border-radius:10px; padding:12px; color:white; min-width:140px;">
+            <b style="font-size:1.2rem;">MSFT</b><br>
+            <span style="font-size:1.1rem;">$409.41</span><br>
+            <small style="background:rgba(0,0,0,0.2); padding:2px 5px; border-radius:4px;">+9.1%</small><br>
+            <div style="font-size:0.7rem; margin-top:8px; opacity:0.8;">
+                ATH: $552.24 (222d)<br>VI: $375.30
+            </div>
+        </div>
+        <div style="background:#800000; border-radius:10px; padding:12px; color:white; min-width:140px;">
+            <b style="font-size:1.2rem;">NVDA</b><br>
+            <span style="font-size:1.1rem;">$182.65</span><br>
+            <small style="background:rgba(0,0,0,0.2); padding:2px 5px; border-radius:4px;">+58.6%</small><br>
+            <div style="font-size:0.7rem; margin-top:8px; opacity:0.8;">
+                ATH: $212.18 (132d)<br>VI: $115.15
+            </div>
+        </div>
+        <div style="background:#1a6b2a; border-radius:10px; padding:12px; color:white; min-width:140px;">
+            <b style="font-size:1.2rem;">PYPL</b><br>
+            <span style="font-size:1.1rem;">$46.16</span><br>
+            <small style="background:rgba(0,0,0,0.2); padding:2px 5px; border-radius:4px;">-63.7%</small><br>
+            <div style="font-size:0.7rem; margin-top:8px; opacity:0.8;">
+                ATH: $79.08 (225d)<br>VI: $127.14
+            </div>
+        </div>
+        <div style="background:#800000; border-radius:10px; padding:12px; color:white; min-width:140px;">
+            <b style="font-size:1.2rem;">TSLA</b><br>
+            <span style="font-size:1.1rem;">$398.68</span><br>
+            <small style="background:rgba(0,0,0,0.2); padding:2px 5px; border-radius:4px;">+1470.8%</small><br>
+            <div style="font-size:0.7rem; margin-top:8px; opacity:0.8;">
+                ATH: $498.83 (78d)<br>VI: $25.38
+            </div>
+        </div>
+        <div style="background:#e63946; border-radius:10px; padding:12px; color:white; min-width:140px;">
+            <b style="font-size:1.2rem;">V</b><br>
+            <span style="font-size:1.1rem;">$315.97</span><br>
+            <small style="background:rgba(0,0,0,0.2); padding:2px 5px; border-radius:4px;">+26.2%</small><br>
+            <div style="font-size:0.7rem; margin-top:8px; opacity:0.8;">
+                ATH: $373.34 (272d)<br>VI: $250.28
+            </div>
+        </div>
+        <div style="background:#800000; border-radius:10px; padding:12px; color:white; min-width:140px;">
+            <b style="font-size:1.2rem;">WMT</b><br>
+            <span style="font-size:1.1rem;">$124.34</span><br>
+            <small style="background:rgba(0,0,0,0.2); padding:2px 5px; border-radius:4px;">+93.1%</small><br>
+            <div style="font-size:0.7rem; margin-top:8px; opacity:0.8;">
+                ATH: $134.69 (21d)<br>VI: $64.39
+            </div>
+        </div>
+        </div></body></html>
