@@ -1,22 +1,55 @@
-name: Agente Antigravity Diario
+name: 📡 Radar de Acciones – Heatmap
+
 on:
   workflow_dispatch:
+
+  schedule:
+    - cron: "0 16 * * 1-5"
+
 permissions:
   contents: write
+
 jobs:
-  run-bot:
+  build-and-deploy:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
         with:
-          python-version: '3.9'
-      - run: pip install yfinance requests
-      - run: python agente.py
-      - name: Deploy
+          fetch-depth: 0
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
         run: |
-          git config --global user.name "github-actions"
-          git config --global user.email "github-actions@github.com"
+          python -m pip install --upgrade pip
+          pip install yfinance requests
+
+      - name: Run agente.py
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python agente.py
+
+      - name: Commit and force-push index.html
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
           git add index.html
-          git commit -m "Update" || exit 0
-          git push --force
+          git diff --cached --quiet || git commit -m "chore: update heatmap $(date -u '+%Y-%m-%d %H:%M UTC')"
+          git push --force origin HEAD:gh-pages
+```
+
+---
+
+**Estructura de carpetas en tu repo:**
+```
+tu-repo/
+├── agente.py
+└── .github/
+    └── workflows/
+        └── main.yml
