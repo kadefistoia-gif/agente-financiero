@@ -1,26 +1,43 @@
-<!DOCTYPE html><html><head>
-    <meta http-equiv="refresh" content="30">
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="refresh" content="90">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>S&P 100 Live Radar</title>
     <style>
-        body { background:#0e1117; color:white; font-family:sans-serif; display:grid; grid-template-columns:repeat(auto-fill, minmax(140px,1fr)); gap:10px; padding:20px; }
-        .card { border-radius:8px; padding:10px; transition:0.3s; }
-        h1 { grid-column: 1/-1; text-align:center; }
-    </style></head><body>
-    <h1>📡 Radar Vivo: 2/100 (Carga: 06:04:56 UTC)</h1>
-    
-        <div class="card" style="background:#d47d32; border:3px solid #007bff;">
-            <div style="font-weight:bold;">MSFT</div>
-            <div style="font-size:0.8rem; opacity:0.8;">Technology</div>
-            <div style="font-size:1.2rem;">$409.41</div>
-            <div style="font-size:0.7rem; background:rgba(0,0,0,0.3); padding:2px; border-radius:4px;">
-                +9.1%
-            </div>
+        body { background:#0e1117; color:white; font-family:'Segoe UI',sans-serif; padding:20px; margin:0; }
+        .grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(155px, 1fr)); gap:12px; max-width:1400px; margin:0 auto; }
+        .card { border-radius:12px; padding:15px; display:flex; flex-direction:column; gap:6px; transition:all 0.3s; position:relative; min-height:160px; }
+        .card:hover { transform:scale(1.03); filter:brightness(1.1); }
+        .ticker { font-weight:800; font-size:1.3rem; letter-spacing:1px; }
+        .sector { font-size:0.65rem; text-transform:uppercase; opacity:0.7; font-weight:600; }
+        .price { font-size:1.1rem; font-weight:500; }
+        .badge { background:rgba(0,0,0,0.4); padding:4px 8px; border-radius:6px; font-size:0.8rem; font-weight:bold; width:fit-content; }
+        .vi { font-size:0.7rem; opacity:0.5; margin-top:auto; border-top:1px solid rgba(255,255,255,0.1); padding-top:5px; }
+        h1 { text-align:center; margin-bottom:5px; font-size:1.8rem; }
+        .status { text-align:center; opacity:0.6; font-size:0.9rem; margin-bottom:25px; }
+    </style>
+</head>
+<body>
+    <h1>📡 Radar Vivo S&P 100</h1>
+    <div class="status">Progreso: 2/100 | Actualizado: 06:15:34 UTC (Auto-refresh 90s)</div>
+    <div class="grid">
+        
+        <div class="card" style="background:#e63946; border:3px solid #00d4ff; box-shadow: 0 0 15px rgba(0, 212, 255, 0.4);;">
+            <div class="ticker">AAPL</div>
+            <div class="sector">Technology</div>
+            <div class="price">$259.88</div>
+            <div class="badge">+40.0%</div>
+            <div class="vi">VI Graham: $185.65</div>
         </div>
-        <div class="card" style="background:#e63946; border:3px solid #007bff;">
-            <div style="font-weight:bold;">AAPL</div>
-            <div style="font-size:0.8rem; opacity:0.8;">Technology</div>
-            <div style="font-size:1.2rem;">$259.88</div>
-            <div style="font-size:0.7rem; background:rgba(0,0,0,0.3); padding:2px; border-radius:4px;">
-                +40.0%
-            </div>
+        <div class="card" style="background:#d47d32; border:3px solid #00d4ff; box-shadow: 0 0 15px rgba(0, 212, 255, 0.4);;">
+            <div class="ticker">MSFT</div>
+            <div class="sector">Technology</div>
+            <div class="price">$409.41</div>
+            <div class="badge">+9.1%</div>
+            <div class="vi">VI Graham: $375.30</div>
         </div>
-    </body></html>
+    </div>
+</body>
+</html>
