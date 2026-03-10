@@ -1,8 +1,8 @@
 name: Agente Antigravity Diario
 on:
   schedule:
-    - cron: '30 13 * * *' # Se ejecuta 1h antes de Wall Street
-  workflow_dispatch:      # Botón para ejecutarlo manualmente ahora
+    - cron: '30 13 * * *'
+  workflow_dispatch:
 
 jobs:
   run-bot:
@@ -17,3 +17,10 @@ jobs:
         run: pip install yfinance requests
       - name: Run Agent
         run: python agente.py
+      - name: Commit and push changes
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          git add index.html
+          git commit -m "Actualizar mapa de calor" || echo "No hay cambios"
+          git push
