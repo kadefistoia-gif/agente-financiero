@@ -20,14 +20,20 @@ jobs:
         run: pip install yfinance pandas
       - name: Run Cycles
         run: |
+          # Borrar el progreso solo UNA VEZ al inicio del flujo
           rm -f progreso.json
+          
           for i in {1..10}
           do
+            echo "Iniciando ciclo $i..."
             python agente.py
+            
             git config user.name "github-actions[bot]"
             git config user.email "github-actions[bot]@users.noreply.github.com"
             git add index.html progreso.json
-            git commit -m "update $i" || echo "no changes"
+            git commit -m "update cycle $i" || echo "no changes"
             git push --force origin HEAD:main
-            sleep 90
+            
+            echo "Esperando 120 segundos para evitar bloqueos..."
+            sleep 120
           done
