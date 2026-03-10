@@ -1,109 +1,34 @@
-
-    <html>
-    <head>
-        <style>
-            body { background: #0e1117; color: white; font-family: sans-serif; padding: 20px; }
-            .container { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
-            .card { border-radius: 8px; display: flex; flex-direction: column; justify-content: center; 
-                     align-items: center; border: 1px solid #333; }
-            .ticker { font-weight: bold; font-size: 1.1em; }
-            .diff { font-size: 0.9em; }
-            .ath-info { font-size: 0.7em; opacity: 0.7; margin-top: 4px; }
-        </style>
-    </head>
-    <body>
-        <h1>📊 Radar Antigravity Pro</h1>
-        <div class="container">
-            <div class="card" style="background:#cc0000; width:220px; height:154.0px;">
-                <div class="ticker">AAPL</div>
-                <div class="diff">+40.0%</div>
-                <div class="ath-info">97d desde ATH</div>
-            </div>
-            
-            <div class="card" style="background:#444; width:220px; height:154.0px;">
-                <div class="ticker">MSFT</div>
-                <div class="diff">+9.1%</div>
-                <div class="ath-info">222d desde ATH</div>
-            </div>
-            
-            <div class="card" style="background:#444; width:220px; height:154.0px;">
-                <div class="ticker">GOOGL</div>
-                <div class="diff">+20.6%</div>
-                <div class="ath-info">35d desde ATH</div>
-            </div>
-            
-            <div class="card" style="background:#cc0000; width:220px; height:154.0px;">
-                <div class="ticker">AMZN</div>
-                <div class="diff">+26.7%</div>
-                <div class="ath-info">127d desde ATH</div>
-            </div>
-            
-            <div class="card" style="background:#800000; width:220px; height:154.0px;">
-                <div class="ticker">NVDA</div>
-                <div class="diff">+58.6%</div>
-                <div class="ath-info">132d desde ATH</div>
-            </div>
-            
-            <div class="card" style="background:#800000; width:220px; height:154.0px;">
-                <div class="ticker">TSLA</div>
-                <div class="diff">+1470.8%</div>
-                <div class="ath-info">78d desde ATH</div>
-            </div>
-            
-            <div class="card" style="background:#444; width:220px; height:154.0px;">
-                <div class="ticker">META</div>
-                <div class="diff">+17.2%</div>
-                <div class="ath-info">207d desde ATH</div>
-            </div>
-            
-            <div class="card" style="background:#800000; width:220px; height:154.0px;">
-                <div class="ticker">AVGO</div>
-                <div class="diff">+187.4%</div>
-                <div class="ath-info">90d desde ATH</div>
-            </div>
-            
-            <div class="card" style="background:#2d6a4f; width:110px; height:77.0px;">
-                <div class="ticker">ADBE</div>
-                <div class="diff">-28.0%</div>
-                <div class="ath-info">365d desde ATH</div>
-            </div>
-            
-            <div class="card" style="background:#800000; width:110px; height:77.0px;">
-                <div class="ticker">NFLX</div>
-                <div class="diff">+65.4%</div>
-                <div class="ath-info">253d desde ATH</div>
-            </div>
-            
-            <div class="card" style="background:#444; width:110px; height:77.0px;">
-                <div class="ticker">INTC</div>
-                <div class="diff">+0.0%</div>
-                <div class="ath-info">47d desde ATH</div>
-            </div>
-            
-            <div class="card" style="background:#008000; width:110px; height:77.0px;">
-                <div class="ticker">PYPL</div>
-                <div class="diff">-63.7%</div>
-                <div class="ath-info">225d desde ATH</div>
-            </div>
-            
-            <div class="card" style="background:#008000; width:214.52537200639998px; height:150.16776040447996px;">
-                <div class="ticker">BRK-B</div>
-                <div class="diff">-31.8%</div>
-                <div class="ath-info">312d desde ATH</div>
-            </div>
-            
-            <div class="card" style="background:#800000; width:198.2688526336px; height:138.78819684351998px;">
-                <div class="ticker">WMT</div>
-                <div class="diff">+93.1%</div>
-                <div class="ath-info">21d desde ATH</div>
-            </div>
-            
-            <div class="card" style="background:#cc0000; width:121.84053350399999px; height:85.28837345279999px;">
-                <div class="ticker">V</div>
-                <div class="diff">+26.2%</div>
-                <div class="ath-info">272d desde ATH</div>
-            </div>
-            </div>
-    </body>
-    </html>
-    
+<html><head><style>
+        body { background:#0e1117; color:white; font-family:sans-serif; padding:20px; display:flex; flex-wrap:wrap; gap:10px; }
+        .card { border:1px solid #333; padding:15px; border-radius:8px; width:120px; text-align:center; cursor:help; }
+    </style></head><body><div class='card' style='background:#cc0000' title='Precio: $259.88 | VI: $185.65 | ATH hace 97 dias'>
+                <b>AAPL</b><br><small>+40.0%</small>
+            </div><div class='card' style='background:#444' title='Precio: $409.41 | VI: $375.30 | ATH hace 222 dias'>
+                <b>MSFT</b><br><small>+9.1%</small>
+            </div><div class='card' style='background:#444' title='Precio: $306.36 | VI: $254.04 | ATH hace 35 dias'>
+                <b>GOOGL</b><br><small>+20.6%</small>
+            </div><div class='card' style='background:#cc0000' title='Precio: $213.49 | VI: $168.50 | ATH hace 127 dias'>
+                <b>AMZN</b><br><small>+26.7%</small>
+            </div><div class='card' style='background:#800000' title='Precio: $182.65 | VI: $115.15 | ATH hace 132 dias'>
+                <b>NVDA</b><br><small>+58.6%</small>
+            </div><div class='card' style='background:#800000' title='Precio: $398.68 | VI: $25.38 | ATH hace 78 dias'>
+                <b>TSLA</b><br><small>+1470.8%</small>
+            </div><div class='card' style='background:#444' title='Precio: $647.39 | VI: $552.25 | ATH hace 207 dias'>
+                <b>META</b><br><small>+17.2%</small>
+            </div><div class='card' style='background:#800000' title='Precio: $345.75 | VI: $120.32 | ATH hace 90 dias'>
+                <b>AVGO</b><br><small>+187.4%</small>
+            </div><div class='card' style='background:#444' title='Precio: $282.44 | VI: $392.22 | ATH hace 365 dias'>
+                <b>ADBE</b><br><small>-28.0%</small>
+            </div><div class='card' style='background:#800000' title='Precio: $98.32 | VI: $59.45 | ATH hace 253 dias'>
+                <b>NFLX</b><br><small>+65.4%</small>
+            </div><div class='card' style='background:#444' title='Precio: $45.58 | VI: $0.00 | ATH hace 47 dias'>
+                <b>INTC</b><br><small>+0.0%</small>
+            </div><div class='card' style='background:#008000' title='Precio: $46.16 | VI: $127.14 | ATH hace 225 dias'>
+                <b>PYPL</b><br><small>-63.7%</small>
+            </div><div class='card' style='background:#008000' title='Precio: $497.20 | VI: $729.21 | ATH hace 312 dias'>
+                <b>BRK-B</b><br><small>-31.8%</small>
+            </div><div class='card' style='background:#800000' title='Precio: $124.34 | VI: $64.39 | ATH hace 21 dias'>
+                <b>WMT</b><br><small>+93.1%</small>
+            </div><div class='card' style='background:#cc0000' title='Precio: $315.97 | VI: $250.28 | ATH hace 272 dias'>
+                <b>V</b><br><small>+26.2%</small>
+            </div></body></html>
