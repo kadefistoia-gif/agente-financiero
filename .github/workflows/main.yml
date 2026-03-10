@@ -36,19 +36,8 @@ jobs:
 
       - name: Commit and force-push index.html
         run: |
-          git config user.name  "github-actions[bot]"
+          git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add index.html
-          git diff --cached --quiet || git commit -m "chore: update heatmap $(date -u '+%Y-%m-%d %H:%M UTC')"
+          git commit -m "chore: update heatmap $(date -u '+%Y-%m-%d %H:%M UTC')" || echo "No changes"
           git push --force origin HEAD:main
-```
-
----
-
-**Estructura mínima del repo:**
-```
-tu-repo/
-├── agente.py
-└── .github/
-    └── workflows/
-        └── main.yml
