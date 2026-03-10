@@ -1,83 +1,279 @@
-<html><head><style>
-        body { background:#0e1117; color:white; font-family:sans-serif; display:grid; 
-                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap:10px; padding:20px; }
-        .card { border:1px solid #333; padding:15px; border-radius:8px; text-align:center; }
-        .t { font-weight:bold; font-size:1.2em; }
-        .d { font-size:1.1em; margin:5px 0; }
-        .a, .v { font-size:0.75em; opacity:0.7; }
-    </style></head><body><div class='card' style='background:#cc0000'>
-                <div class='t'>AAPL</div>
-                <div class='d'>+40.0%</div>
-                <div class='a'>ATH: $288 (97d)</div>
-                <div class='v'>VI: $186</div>
-            </div><div class='card' style='background:#444'>
-                <div class='t'>MSFT</div>
-                <div class='d'>+9.1%</div>
-                <div class='a'>ATH: $552 (222d)</div>
-                <div class='v'>VI: $375</div>
-            </div><div class='card' style='background:#444'>
-                <div class='t'>GOOGL</div>
-                <div class='d'>+20.6%</div>
-                <div class='a'>ATH: $349 (35d)</div>
-                <div class='v'>VI: $254</div>
-            </div><div class='card' style='background:#cc0000'>
-                <div class='t'>AMZN</div>
-                <div class='d'>+26.7%</div>
-                <div class='a'>ATH: $259 (127d)</div>
-                <div class='v'>VI: $168</div>
-            </div><div class='card' style='background:#cc0000'>
-                <div class='t'>NVDA</div>
-                <div class='d'>+58.6%</div>
-                <div class='a'>ATH: $212 (132d)</div>
-                <div class='v'>VI: $115</div>
-            </div><div class='card' style='background:#cc0000'>
-                <div class='t'>TSLA</div>
-                <div class='d'>+1470.8%</div>
-                <div class='a'>ATH: $499 (78d)</div>
-                <div class='v'>VI: $25</div>
-            </div><div class='card' style='background:#444'>
-                <div class='t'>META</div>
-                <div class='d'>+17.2%</div>
-                <div class='a'>ATH: $795 (207d)</div>
-                <div class='v'>VI: $552</div>
-            </div><div class='card' style='background:#cc0000'>
-                <div class='t'>AVGO</div>
-                <div class='d'>+187.4%</div>
-                <div class='a'>ATH: $414 (90d)</div>
-                <div class='v'>VI: $120</div>
-            </div><div class='card' style='background:#444'>
-                <div class='t'>ADBE</div>
-                <div class='d'>-28.0%</div>
-                <div class='a'>ATH: $445 (365d)</div>
-                <div class='v'>VI: $392</div>
-            </div><div class='card' style='background:#cc0000'>
-                <div class='t'>NFLX</div>
-                <div class='d'>+65.4%</div>
-                <div class='a'>ATH: $134 (253d)</div>
-                <div class='v'>VI: $59</div>
-            </div><div class='card' style='background:#444'>
-                <div class='t'>INTC</div>
-                <div class='d'>+0.0%</div>
-                <div class='a'>ATH: $55 (47d)</div>
-                <div class='v'>VI: $0</div>
-            </div><div class='card' style='background:#008000'>
-                <div class='t'>PYPL</div>
-                <div class='d'>-63.7%</div>
-                <div class='a'>ATH: $79 (225d)</div>
-                <div class='v'>VI: $127</div>
-            </div><div class='card' style='background:#008000'>
-                <div class='t'>BRK-B</div>
-                <div class='d'>-31.8%</div>
-                <div class='a'>ATH: $542 (312d)</div>
-                <div class='v'>VI: $729</div>
-            </div><div class='card' style='background:#cc0000'>
-                <div class='t'>WMT</div>
-                <div class='d'>+93.1%</div>
-                <div class='a'>ATH: $135 (21d)</div>
-                <div class='v'>VI: $64</div>
-            </div><div class='card' style='background:#cc0000'>
-                <div class='t'>V</div>
-                <div class='d'>+26.2%</div>
-                <div class='a'>ATH: $373 (272d)</div>
-                <div class='v'>VI: $250</div>
-            </div></body></html>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Radar de Acciones · Heatmap</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #0e1117;
+    color: #e8eaf0;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    min-height: 100vh;
+    padding: 2rem 1.5rem;
+  }
+  header { text-align: center; margin-bottom: 2rem; }
+  header h1 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    color: #ffffff;
+  }
+  header p { font-size: 0.85rem; color: #8892a4; margin-top: 0.35rem; }
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+    font-size: 0.78rem;
+  }
+  .legend span {
+    padding: 0.3rem 0.75rem;
+    border-radius: 999px;
+    font-weight: 600;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .card {
+    border-radius: 12px;
+    padding: 1rem 0.85rem;
+    cursor: default;
+    transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    min-height: 155px;
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  .card:hover {
+    transform: translateY(-6px) scale(1.04);
+    box-shadow: 0 12px 32px rgba(0,0,0,0.55);
+    filter: brightness(1.18);
+    z-index: 10;
+  }
+  .ticker {
+    font-size: 1.15rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    color: #ffffff;
+  }
+  .price { font-size: 0.95rem; font-weight: 600; color: rgba(255,255,255,0.9); }
+  .badge {
+    font-size: 0.72rem;
+    font-weight: 700;
+    background: rgba(0,0,0,0.3);
+    border-radius: 6px;
+    padding: 0.2rem 0.4rem;
+    display: inline-block;
+    color: #fff;
+    word-break: break-word;
+  }
+  .meta {
+    font-size: 0.72rem;
+    color: rgba(255,255,255,0.75);
+    line-height: 1.5;
+    margin-top: auto;
+  }
+  .vi { font-size: 0.72rem; color: rgba(255,255,255,0.65); }
+  .muted { color: rgba(255,255,255,0.5); }
+  footer {
+    text-align: center;
+    margin-top: 3rem;
+    font-size: 0.75rem;
+    color: #4a5568;
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>📡 Radar de Acciones · Heatmap</h1>
+  <p>Actualizado: 2026-03-10 05:10 UTC · Valor Intrínseco por fórmula de Graham (EPS × 23.5)</p>
+</header>
+<div class="legend">
+  <span style="background:#1a6b2a;">🟢 Ganga ≤ −30% VI</span>
+  <span style="background:#3a7bd5;">🔵 Descuento &lt; VI</span>
+  <span style="background:#c8a020;">🟡 Prima leve</span>
+  <span style="background:#e63946;">🔴 Sobreval. ≥ +25%</span>
+  <span style="background:#800000;">💀 Burbuja ≥ +50%</span>
+  <span style="background:#444;">⬜ Sin datos</span>
+</div>
+<div class="grid">
+
+<div class="card" style="background:#e63946;" title="Apple Inc.">
+  <div class="ticker">AAPL</div>
+  <div class="price">$259.88</div>
+  <div class="badge">🔴 Sobrevalorado  +40.0%</div>
+  <div class="meta">
+    ATH&nbsp;<b>$288.35</b><br>
+    <span class="muted">97 días atrás</span>
+  </div>
+  <div class="vi">VI Graham: <b>$185.65</b></div>
+</div>
+
+<div class="card" style="background:rgb(214,116,50);" title="Microsoft Corporation">
+  <div class="ticker">MSFT</div>
+  <div class="price">$409.41</div>
+  <div class="badge">🟡 Prima  +9.1%</div>
+  <div class="meta">
+    ATH&nbsp;<b>$552.24</b><br>
+    <span class="muted">222 días atrás</span>
+  </div>
+  <div class="vi">VI Graham: <b>$375.30</b></div>
+</div>
+
+<div class="card" style="background:rgb(232,61,50);" title="Alphabet Inc.">
+  <div class="ticker">GOOGL</div>
+  <div class="price">$306.36</div>
+  <div class="badge">🟡 Prima  +20.6%</div>
+  <div class="meta">
+    ATH&nbsp;<b>$348.75</b><br>
+    <span class="muted">35 días atrás</span>
+  </div>
+  <div class="vi">VI Graham: <b>$254.04</b></div>
+</div>
+
+<div class="card" style="background:#e63946;" title="Amazon.com, Inc.">
+  <div class="ticker">AMZN</div>
+  <div class="price">$213.49</div>
+  <div class="badge">🔴 Sobrevalorado  +26.7%</div>
+  <div class="meta">
+    ATH&nbsp;<b>$258.60</b><br>
+    <span class="muted">127 días atrás</span>
+  </div>
+  <div class="vi">VI Graham: <b>$168.50</b></div>
+</div>
+
+<div class="card" style="background:#800000;" title="NVIDIA Corporation">
+  <div class="ticker">NVDA</div>
+  <div class="price">$182.65</div>
+  <div class="badge">💀 BURBUJA  +58.6%</div>
+  <div class="meta">
+    ATH&nbsp;<b>$212.18</b><br>
+    <span class="muted">132 días atrás</span>
+  </div>
+  <div class="vi">VI Graham: <b>$115.15</b></div>
+</div>
+
+<div class="card" style="background:#800000;" title="Tesla, Inc.">
+  <div class="ticker">TSLA</div>
+  <div class="price">$398.68</div>
+  <div class="badge">💀 BURBUJA  +1470.8%</div>
+  <div class="meta">
+    ATH&nbsp;<b>$498.83</b><br>
+    <span class="muted">78 días atrás</span>
+  </div>
+  <div class="vi">VI Graham: <b>$25.38</b></div>
+</div>
+
+<div class="card" style="background:rgb(227,77,50);" title="Meta Platforms, Inc.">
+  <div class="ticker">META</div>
+  <div class="price">$647.39</div>
+  <div class="badge">🟡 Prima  +17.2%</div>
+  <div class="meta">
+    ATH&nbsp;<b>$795.06</b><br>
+    <span class="muted">207 días atrás</span>
+  </div>
+  <div class="vi">VI Graham: <b>$552.25</b></div>
+</div>
+
+<div class="card" style="background:#800000;" title="Broadcom Inc.">
+  <div class="ticker">AVGO</div>
+  <div class="price">$345.75</div>
+  <div class="badge">💀 BURBUJA  +187.4%</div>
+  <div class="meta">
+    ATH&nbsp;<b>$413.82</b><br>
+    <span class="muted">90 días atrás</span>
+  </div>
+  <div class="vi">VI Graham: <b>$120.32</b></div>
+</div>
+
+<div class="card" style="background:rgb(153,215,50);" title="Adobe Inc.">
+  <div class="ticker">ADBE</div>
+  <div class="price">$282.44</div>
+  <div class="badge">🔵 Descuento  -28.0%</div>
+  <div class="meta">
+    ATH&nbsp;<b>$443.90</b><br>
+    <span class="muted">363 días atrás</span>
+  </div>
+  <div class="vi">VI Graham: <b>$392.22</b></div>
+</div>
+
+<div class="card" style="background:#800000;" title="Netflix, Inc.">
+  <div class="ticker">NFLX</div>
+  <div class="price">$98.32</div>
+  <div class="badge">💀 BURBUJA  +65.4%</div>
+  <div class="meta">
+    ATH&nbsp;<b>$134.12</b><br>
+    <span class="muted">253 días atrás</span>
+  </div>
+  <div class="vi">VI Graham: <b>$59.45</b></div>
+</div>
+
+<div class="card" style="background:#444444;" title="Intel Corporation">
+  <div class="ticker">INTC</div>
+  <div class="price">$45.58</div>
+  <div class="badge">Sin Datos / EPS neg.</div>
+  <div class="meta">
+    ATH&nbsp;<b>$54.60</b><br>
+    <span class="muted">47 días atrás</span>
+  </div>
+  <div class="vi">VI Graham: <b>$0.00</b></div>
+</div>
+
+<div class="card" style="background:#1a6b2a;" title="PayPal Holdings, Inc.">
+  <div class="ticker">PYPL</div>
+  <div class="price">$46.16</div>
+  <div class="badge">🟢 GANGA  -63.7%</div>
+  <div class="meta">
+    ATH&nbsp;<b>$79.08</b><br>
+    <span class="muted">225 días atrás</span>
+  </div>
+  <div class="vi">VI Graham: <b>$127.14</b></div>
+</div>
+
+<div class="card" style="background:#1a6b2a;" title="Berkshire Hathaway Inc. New">
+  <div class="ticker">BRK-B</div>
+  <div class="price">$497.20</div>
+  <div class="badge">🟢 GANGA  -31.8%</div>
+  <div class="meta">
+    ATH&nbsp;<b>$542.07</b><br>
+    <span class="muted">312 días atrás</span>
+  </div>
+  <div class="vi">VI Graham: <b>$729.21</b></div>
+</div>
+
+<div class="card" style="background:#800000;" title="Walmart Inc.">
+  <div class="ticker">WMT</div>
+  <div class="price">$124.34</div>
+  <div class="badge">💀 BURBUJA  +93.1%</div>
+  <div class="meta">
+    ATH&nbsp;<b>$134.69</b><br>
+    <span class="muted">21 días atrás</span>
+  </div>
+  <div class="vi">VI Graham: <b>$64.39</b></div>
+</div>
+
+<div class="card" style="background:#e63946;" title="Visa Inc.">
+  <div class="ticker">V</div>
+  <div class="price">$315.97</div>
+  <div class="badge">🔴 Sobrevalorado  +26.2%</div>
+  <div class="meta">
+    ATH&nbsp;<b>$373.34</b><br>
+    <span class="muted">272 días atrás</span>
+  </div>
+  <div class="vi">VI Graham: <b>$250.28</b></div>
+</div>
+
+</div>
+<footer>
+  Datos obtenidos vía yfinance · Solo con fines educativos, no constituye asesoría financiera.
+</footer>
+</body>
+</html>
